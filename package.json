@@ -14,6 +14,8 @@
     "@expo/dom-webview": "latest",
     "@expo/metro-runtime": "latest",
     "@hookform/resolvers": "latest",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-slot": "^1.0.2",
     "@react-native-async-storage/async-storage": "latest",
     "@react-navigation/drawer": "latest",
     "@react-navigation/native": "latest",
@@ -68,6 +70,7 @@
     "tailwindcss-animate": "^1.0.7",
     "use-sync-external-store": "latest",
     "victory-native": "latest",
+    "zod": "4.1.12",
     "zustand": "latest"
   },
   "devDependencies": {
