@@ -48,6 +48,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "latest",
+    "embla-carousel-react": "^8.0.0",
     "eslint-config-expo": "latest",
     "expo": "latest",
     "expo-application": "latest",
