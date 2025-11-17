@@ -73,7 +73,7 @@
     "posthog-react-native": "latest",
     "posthog-react-native-session-replay": "latest",
     "react": "19.1.0",
-    "react-day-picker": "^9.4.4",
+    "react-day-picker": "latest",
     "react-dom": "19.1.0",
     "react-hook-form": "latest",
     "react-native": "latest",
