@@ -47,6 +47,7 @@
     "@testing-library/react-native": "latest",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
     "date-fns": "latest",
     "embla-carousel-react": "^8.0.0",
     "eslint-config-expo": "latest",
