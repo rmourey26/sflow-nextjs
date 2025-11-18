@@ -65,6 +65,7 @@
     "expo-status-bar": "latest",
     "fs": "latest",
     "immer": "latest",
+    "input-otp": "^1.2.4",
     "jiti": "latest",
     "lucide-react": "^0.454.0",
     "lucide-react-native": "latest",
