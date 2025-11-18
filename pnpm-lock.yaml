@@ -45,7 +45,7 @@ importers:
         specifier: ^2.1.5
         version: 2.1.5(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-dialog':
-        specifier: ^1.0.5
+        specifier: ^1.1.15
         version: 1.1.15(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.0.6
@@ -87,7 +87,7 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-tabs':
-        specifier: ^1.0.4
+        specifier: ^1.1.13
         version: 1.1.13(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-toast':
         specifier: ^1.1.5
@@ -257,6 +257,9 @@ importers:
       react-native-worklets:
         specifier: latest
         version: 0.6.1(@babel/core@7.28.5)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
+      react-resizable-panels:
+        specifier: ^2.1.0
+        version: 2.1.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-server-dom-webpack:
         specifier: latest
         version: 19.2.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(webpack@5.102.1)
@@ -279,7 +282,7 @@ importers:
         specifier: latest
         version: 1.6.0(react@19.1.0)
       vaul:
-        specifier: ^1.1.1
+        specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       victory-native:
         specifier: latest
@@ -5558,6 +5561,12 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  react-resizable-panels@2.1.0:
+    resolution: {integrity: sha512-k2gGjGyCNF9xq8gVkkHBK1mlWv6xetPtvRdEtD914gTdhJcy02TLF0xMPuVLlGRuLoWGv7Gd/O1rea2KIQb3Qw==}
+    peerDependencies:
+      react: ^16.14.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
 
   react-server-dom-webpack@19.2.0:
     resolution: {integrity: sha512-ar2H1q9SvonShYYYszHx7gE3v9NF3K01AvrIvQMIRNXj+CiUDjI2C7XKexDSlOzqwSlxgDivaMdYwfEBYD6NjQ==}
@@ -12723,6 +12732,11 @@ snapshots:
       use-sidecar: 1.1.3(@types/react@19.0.0)(react@19.1.0)
     optionalDependencies:
       '@types/react': 19.0.0
+
+  react-resizable-panels@2.1.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   react-server-dom-webpack@19.2.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(webpack@5.102.1):
     dependencies:
