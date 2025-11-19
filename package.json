@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/is-prop-valid": "latest",
     "@expo/dom-webview": "latest",
     "@expo/metro-runtime": "latest",
     "@hookform/resolvers": "^5.2.2",
@@ -56,6 +57,7 @@
     "expo-file-system": "latest",
     "expo-localization": "latest",
     "expo-secure-store": "latest",
+    "framer-motion": "latest",
     "fs": "latest",
     "immer": "latest",
     "input-otp": "^1.2.4",
