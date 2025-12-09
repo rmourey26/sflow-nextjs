@@ -2,8 +2,17 @@ import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { getCurrentUser } from "@/lib/actions/user"
 import { getAccounts } from "@/lib/actions/accounts"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { getTransactions } from "@/lib/actions/transactions"
+import { getGoals } from "@/lib/actions/goals"
+import { getSmartActions } from "@/lib/actions/smart-actions"
+import { getForecast } from "@/lib/actions/forecasts"
+import { DashboardHeader } from "@/components/dashboard/header"
+import { AccountsOverview } from "@/components/dashboard/accounts-overview"
+import { RecentTransactions } from "@/components/dashboard/recent-transactions"
+import { SavingsGoalsWidget } from "@/components/dashboard/savings-goals-widget"
+import { SmartActionsWidget } from "@/components/dashboard/smart-actions-widget"
+import { ForecastChart } from "@/components/dashboard/forecast-chart"
+import { QuickStats } from "@/components/dashboard/quick-stats"
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -16,64 +25,36 @@ export default async function DashboardPage() {
     redirect("/auth/login")
   }
 
-  const [userData, accounts] = await Promise.all([getCurrentUser(), getAccounts()])
+  const [userData, accounts, transactions, goals, smartActions, forecast] = await Promise.all([
+    getCurrentUser(),
+    getAccounts(),
+    getTransactions(undefined, 10),
+    getGoals(),
+    getSmartActions("suggested"),
+    getForecast(90),
+  ])
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Welcome back, {userData?.name || "there"}!</h1>
-          <p className="text-gray-600 mt-2">Here&apos;s your financial overview</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <DashboardHeader user={userData} />
+
+      <main className="container mx-auto px-4 py-6 space-y-6 max-w-7xl">
+        <QuickStats accounts={accounts} transactions={transactions} goals={goals} />
+
+        {forecast && <ForecastChart forecast={forecast} />}
+
+        <div className="grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2 space-y-6">
+            <AccountsOverview accounts={accounts} />
+            <RecentTransactions transactions={transactions} />
+          </div>
+
+          <div className="space-y-6">
+            <SavingsGoalsWidget goals={goals} />
+            <SmartActionsWidget actions={smartActions} />
+          </div>
         </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>Total Accounts</CardTitle>
-              <CardDescription>Connected bank accounts</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-4xl font-bold">{accounts.length}</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Total Balance</CardTitle>
-              <CardDescription>Across all accounts</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-4xl font-bold">
-                ${accounts.reduce((sum, acc) => sum + Number.parseFloat(acc.balance), 0).toFixed(2)}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Subscription</CardTitle>
-              <CardDescription>Current plan</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-semibold capitalize">{userData?.subscription_tier || "Free"}</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="mt-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Get started with SaverFlow</CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-wrap gap-4">
-              <Button>Add Account</Button>
-              <Button variant="outline">Create Goal</Button>
-              <Button variant="outline">View Forecast</Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      </main>
     </div>
   )
 }
