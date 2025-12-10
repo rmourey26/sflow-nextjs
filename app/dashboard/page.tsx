@@ -15,46 +15,61 @@ import { ForecastChart } from "@/components/dashboard/forecast-chart"
 import { QuickStats } from "@/components/dashboard/quick-stats"
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
+  try {
+    const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
-  if (!user) {
-    redirect("/auth/login")
-  }
+    if (!user) {
+      redirect("/auth/login")
+    }
 
-  const [userData, accounts, transactions, goals, smartActions, forecast] = await Promise.all([
-    getCurrentUser(),
-    getAccounts(),
-    getTransactions(undefined, 10),
-    getGoals(),
-    getSmartActions("suggested"),
-    getForecast(90),
-  ])
+    const [userData, accounts, transactions, goals, smartActions, forecast] = await Promise.all([
+      getCurrentUser(),
+      getAccounts(),
+      getTransactions(undefined, 10),
+      getGoals(),
+      getSmartActions("suggested"),
+      getForecast(90),
+    ])
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <DashboardHeader user={userData} />
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+        <DashboardHeader user={userData} />
 
-      <main className="container mx-auto px-4 py-6 space-y-6 max-w-7xl">
-        <QuickStats accounts={accounts} transactions={transactions} goals={goals} />
+        <main className="container mx-auto px-4 py-6 space-y-6 max-w-7xl">
+          <QuickStats accounts={accounts || []} transactions={transactions || []} goals={goals || []} />
 
-        {forecast && <ForecastChart forecast={forecast} />}
+          {forecast && <ForecastChart forecast={forecast} />}
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 space-y-6">
-            <AccountsOverview accounts={accounts} />
-            <RecentTransactions transactions={transactions} />
+          <div className="grid gap-6 lg:grid-cols-3">
+            <div className="lg:col-span-2 space-y-6">
+              <AccountsOverview accounts={accounts || []} />
+              <RecentTransactions transactions={transactions || []} />
+            </div>
+
+            <div className="space-y-6">
+              <SavingsGoalsWidget goals={goals || []} />
+              <SmartActionsWidget actions={smartActions || []} />
+            </div>
           </div>
-
-          <div className="space-y-6">
-            <SavingsGoalsWidget goals={goals} />
-            <SmartActionsWidget actions={smartActions} />
-          </div>
+        </main>
+      </div>
+    )
+  } catch (error) {
+    console.error("[v0] Dashboard error:", error)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="text-center space-y-4 p-8">
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard Error</h1>
+          <p className="text-gray-600">We encountered an error loading your dashboard. Please try again.</p>
+          <a href="/auth/login" className="inline-block px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">
+            Back to Login
+          </a>
         </div>
-      </main>
-    </div>
-  )
+      </div>
+    )
+  }
 }

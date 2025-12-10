@@ -14,7 +14,7 @@ export async function getGoals() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Not authenticated")
+  if (!user) return []
 
   const { data, error } = await supabase
     .from("savings_goals")
@@ -22,8 +22,11 @@ export async function getGoals() {
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
 
-  if (error) throw error
-  return data as SavingsGoal[]
+  if (error) {
+    console.error("[v0] Error fetching goals:", error)
+    return []
+  }
+  return (data as SavingsGoal[]) || []
 }
 
 export async function createGoal(goal: Omit<SavingsGoalInsert, "user_id">) {

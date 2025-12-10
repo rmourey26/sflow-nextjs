@@ -14,23 +14,21 @@ export async function getSmartActions(status?: "suggested" | "accepted" | "dismi
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Not authenticated")
+  if (!user) return []
 
-  let query = supabase
-    .from("smart_actions")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("priority", { ascending: false })
-    .order("created_at", { ascending: false })
+  let query = supabase.from("insights").select("*").eq("user_id", user.id).order("created_at", { ascending: false })
 
-  if (status) {
-    query = query.eq("status", status)
+  if (status === "suggested") {
+    query = query.eq("is_read", false)
   }
 
   const { data, error } = await query
 
-  if (error) throw error
-  return data as SmartAction[]
+  if (error) {
+    console.error("[v0] Error fetching smart actions:", error)
+    return []
+  }
+  return (data as any[]) || []
 }
 
 export async function createSmartAction(action: Omit<SmartActionInsert, "user_id">) {

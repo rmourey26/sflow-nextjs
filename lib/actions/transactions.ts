@@ -14,16 +14,13 @@ export async function getTransactions(accountId?: string, limit = 50, offset = 0
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Not authenticated")
+  if (!user) return []
 
   let query = supabase
     .from("transactions")
-    .select(`
-      *,
-      accounts!inner(user_id)
-    `)
-    .eq("accounts.user_id", user.id)
-    .order("date", { ascending: false })
+    .select("*")
+    .eq("user_id", user.id)
+    .order("transaction_date", { ascending: false })
     .range(offset, offset + limit - 1)
 
   if (accountId) {
@@ -32,8 +29,11 @@ export async function getTransactions(accountId?: string, limit = 50, offset = 0
 
   const { data, error } = await query
 
-  if (error) throw error
-  return data as Transaction[]
+  if (error) {
+    console.error("[v0] Error fetching transactions:", error)
+    return []
+  }
+  return (data as Transaction[]) || []
 }
 
 export async function createTransaction(transaction: TransactionInsert) {
@@ -71,11 +71,8 @@ export async function updateTransaction(id: string, updates: TransactionUpdate) 
     .from("transactions")
     .update(updates)
     .eq("id", id)
-    .select(`
-      *,
-      accounts!inner(user_id)
-    `)
-    .eq("accounts.user_id", user.id)
+    .select("*")
+    .eq("user_id", user.id)
     .single()
 
   if (error) throw error

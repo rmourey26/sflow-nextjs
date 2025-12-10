@@ -13,19 +13,20 @@ export async function getForecast(horizonDays: 90 | 180 | 365) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Not authenticated")
+  if (!user) return null
 
   const { data, error } = await supabase
-    .from("forecasts")
+    .from("forecast_data")
     .select("*")
     .eq("user_id", user.id)
-    .eq("horizon_days", horizonDays)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single()
+    .order("forecast_date", { ascending: true })
+    .limit(horizonDays)
 
-  if (error && error.code !== "PGRST116") throw error
-  return data as Forecast | null
+  if (error) {
+    console.error("[v0] Error fetching forecast:", error)
+    return null
+  }
+  return data || null
 }
 
 export async function getAllForecasts() {

@@ -17,7 +17,10 @@ export async function getCurrentUser() {
 
   const { data, error } = await supabase.from("users").select("*").eq("id", authUser.id).single()
 
-  if (error) throw error
+  if (error) {
+    console.error("[v0] Error fetching user profile:", error)
+    return null
+  }
   return data as User
 }
 

@@ -14,7 +14,7 @@ export async function getAccounts() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Not authenticated")
+  if (!user) return []
 
   const { data, error } = await supabase
     .from("accounts")
@@ -22,8 +22,11 @@ export async function getAccounts() {
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
 
-  if (error) throw error
-  return data as Account[]
+  if (error) {
+    console.error("[v0] Error fetching accounts:", error)
+    return []
+  }
+  return (data as Account[]) || []
 }
 
 export async function createAccount(account: Omit<AccountInsert, "user_id">) {
