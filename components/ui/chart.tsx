@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
-import type { Payload } from "recharts/types/component/DefaultLegendContent"
 
 import { cn } from "@/lib/utils"
 
@@ -242,6 +241,16 @@ ChartTooltipContent.displayName = "ChartTooltip"
 
 const ChartLegend = RechartsPrimitive.Legend
 
+// Recharts 3.5.1 doesn't export Payload from DefaultLegendContent
+type LegendPayload = {
+  value: string
+  id?: string
+  type?: string
+  color?: string
+  payload?: Record<string, unknown>
+  dataKey?: string
+}
+
 const ChartLegendContent = ({
   className,
   hideIcon = false,
@@ -250,7 +259,7 @@ const ChartLegendContent = ({
   nameKey,
   ref,
 }: React.ComponentProps<"div"> & {
-  payload?: Payload[]
+  payload?: LegendPayload[] // Use local LegendPayload type
   verticalAlign?: "top" | "bottom"
   hideIcon?: boolean
   nameKey?: string
