@@ -15,6 +15,8 @@ export interface Database {
           previous_subscription_tier: string | null
           terms_accepted_at: string | null
           terms_version: string | null
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
           created_at: string
           updated_at: string
         }
@@ -29,6 +31,8 @@ export interface Database {
           previous_subscription_tier?: string | null
           terms_accepted_at?: string | null
           terms_version?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -43,6 +47,8 @@ export interface Database {
           previous_subscription_tier?: string | null
           terms_accepted_at?: string | null
           terms_version?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           updated_at?: string
         }
       }
@@ -56,6 +62,9 @@ export interface Database {
           institution_id: string | null
           connected: boolean
           last_synced_at: string | null
+          plaid_account_id: string | null
+          plaid_access_token: string | null
+          plaid_item_id: string | null
           created_at: string
           updated_at: string
         }
@@ -68,6 +77,9 @@ export interface Database {
           institution_id?: string | null
           connected?: boolean
           last_synced_at?: string | null
+          plaid_account_id?: string | null
+          plaid_access_token?: string | null
+          plaid_item_id?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -78,6 +90,9 @@ export interface Database {
           institution_id?: string | null
           connected?: boolean
           last_synced_at?: string | null
+          plaid_account_id?: string | null
+          plaid_access_token?: string | null
+          plaid_item_id?: string | null
           updated_at?: string
         }
       }
