@@ -42,7 +42,7 @@ export default async function DashboardPage() {
         <main className="container mx-auto px-4 py-6 space-y-6 max-w-7xl">
           <QuickStats accounts={accounts || []} transactions={transactions || []} goals={goals || []} />
 
-          {forecast && <ForecastChart forecast={forecast} />}
+          <ForecastChart forecast={forecast || []} />
 
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">

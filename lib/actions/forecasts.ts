@@ -4,10 +4,9 @@ import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import type { Database } from "@/types/database"
 
-type Forecast = Database["public"]["Tables"]["forecasts"]["Row"]
-type ForecastInsert = Database["public"]["Tables"]["forecasts"]["Insert"]
+type ForecastDataPoint = Database["public"]["Tables"]["forecast_data"]["Row"]
 
-export async function getForecast(horizonDays: 90 | 180 | 365) {
+export async function getForecast(horizonDays: 90 | 180 | 365 = 90) {
   const supabase = await createClient()
 
   const {
@@ -35,7 +34,7 @@ export async function getAllForecasts() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Not authenticated")
+  if (!user) return { 90: null, 180: null, 365: null }
 
   const [forecast90, forecast180, forecast365] = await Promise.all([
     getForecast(90),
@@ -50,22 +49,25 @@ export async function getAllForecasts() {
   }
 }
 
-export async function createForecast(forecast: Omit<ForecastInsert, "user_id">) {
+export async function createForecastData(forecastData: Omit<ForecastDataPoint, "id" | "user_id" | "created_at">) {
   const supabase = await createClient()
 
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Not authenticated")
+  if (!user) return null
 
   const { data, error } = await supabase
-    .from("forecasts")
-    .insert({ ...forecast, user_id: user.id })
+    .from("forecast_data")
+    .insert({ ...forecastData, user_id: user.id })
     .select()
     .single()
 
-  if (error) throw error
+  if (error) {
+    console.error("[v0] Error creating forecast data:", error)
+    return null
+  }
 
   revalidatePath("/dashboard")
-  return data as Forecast
+  return data
 }

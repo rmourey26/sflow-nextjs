@@ -1,17 +1,41 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts"
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart, Line } from "recharts"
 import type { Database } from "@/types/database"
 
-type Forecast = Database["public"]["Tables"]["forecasts"]["Row"]
+type ForecastDataPoint = Database["public"]["Tables"]["forecast_data"]["Row"]
 
 interface ForecastChartProps {
-  forecast: Forecast
+  forecast: ForecastDataPoint[] | null
 }
 
 export function ForecastChart({ forecast }: ForecastChartProps) {
-  const chartData = Array.isArray(forecast.chart_data) ? forecast.chart_data : []
+  const chartData =
+    forecast?.map((point) => ({
+      date: point.forecast_date,
+      p10: point.projected_balance * 0.8, // Conservative estimate
+      p50: point.projected_balance, // Expected balance
+      p90: point.projected_balance * 1.2, // Optimistic estimate
+      income: point.projected_income,
+      expenses: point.projected_expenses,
+    })) || []
+
+  if (!forecast || forecast.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>90-Day Cash Flow Forecast</CardTitle>
+          <CardDescription>No forecast data available yet</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[200px] flex items-center justify-center text-gray-500">
+            Add transactions and accounts to generate your forecast
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
 
   return (
     <Card>
