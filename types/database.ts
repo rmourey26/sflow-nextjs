@@ -151,6 +151,35 @@ export interface Database {
           updated_at?: string
         }
       }
+      forecast_data: {
+        Row: {
+          id: string
+          user_id: string
+          forecast_date: string
+          projected_balance: number
+          projected_income: number
+          projected_expenses: number
+          confidence_score: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          forecast_date: string
+          projected_balance: number
+          projected_income?: number
+          projected_expenses?: number
+          confidence_score?: number | null
+          created_at?: string
+        }
+        Update: {
+          forecast_date?: string
+          projected_balance?: number
+          projected_income?: number
+          projected_expenses?: number
+          confidence_score?: number | null
+        }
+      }
       forecasts: {
         Row: {
           id: string
