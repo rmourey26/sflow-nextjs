@@ -1,12 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { CreditCard, Wallet, PiggyBank, RefreshCw } from "lucide-react"
 import { PlaidLink } from "@/components/integrations/plaid-link"
+import { syncPlaidAccounts } from "@/lib/actions/plaid"
+import { AddAccountDialog } from "./add-account-dialog"
 import type { Database } from "@/types/database"
+import { toast } from "react-hot-toast"
 
 type Account = Database["public"]["Tables"]["accounts"]["Row"]
 
@@ -28,11 +31,20 @@ const accountColors = {
 
 export function AccountsOverview({ accounts }: AccountsOverviewProps) {
   const [refreshing, setRefreshing] = useState(false)
+  const [isPending, startTransition] = useTransition()
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setRefreshing(true)
-    // TODO: Implement account refresh logic
-    setTimeout(() => setRefreshing(false), 2000)
+    startTransition(async () => {
+      const result = await syncPlaidAccounts()
+      if (result.error) {
+        toast.error(result.error)
+      } else {
+        toast.success(`Synced ${result.synced} account(s)`)
+        window.location.reload()
+      }
+      setRefreshing(false)
+    })
   }
 
   return (
@@ -48,13 +60,14 @@ export function AccountsOverview({ accounts }: AccountsOverviewProps) {
               size="sm"
               variant="outline"
               onClick={handleRefresh}
-              disabled={refreshing}
+              disabled={refreshing || isPending}
               className="gap-2 bg-transparent"
             >
               <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
               Sync
             </Button>
           )}
+          <AddAccountDialog onSuccess={() => window.location.reload()} />
           <PlaidLink size="sm" onSuccess={() => window.location.reload()} />
         </div>
       </CardHeader>
