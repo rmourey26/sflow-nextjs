@@ -331,6 +331,85 @@ export interface Database {
           updated_at?: string
         }
       }
+      notifications: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          message: string
+          type: "info" | "success" | "warning" | "error" | "action"
+          read: boolean
+          action_url: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          message: string
+          type: "info" | "success" | "warning" | "error" | "action"
+          read?: boolean
+          action_url?: string | null
+          created_at?: string
+        }
+        Update: {
+          title?: string
+          message?: string
+          type?: "info" | "success" | "warning" | "error" | "action"
+          read?: boolean
+          action_url?: string | null
+        }
+      }
+      user_preferences: {
+        Row: {
+          id: string
+          user_id: string
+          email_notifications: boolean
+          push_notifications: boolean
+          sms_notifications: boolean
+          marketing_emails: boolean
+          weekly_summary: boolean
+          goal_reminders: boolean
+          transaction_alerts: boolean
+          budget_alerts: boolean
+          theme: "light" | "dark" | "system"
+          currency: string
+          date_format: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          email_notifications?: boolean
+          push_notifications?: boolean
+          sms_notifications?: boolean
+          marketing_emails?: boolean
+          weekly_summary?: boolean
+          goal_reminders?: boolean
+          transaction_alerts?: boolean
+          budget_alerts?: boolean
+          theme?: "light" | "dark" | "system"
+          currency?: string
+          date_format?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          email_notifications?: boolean
+          push_notifications?: boolean
+          sms_notifications?: boolean
+          marketing_emails?: boolean
+          weekly_summary?: boolean
+          goal_reminders?: boolean
+          transaction_alerts?: boolean
+          budget_alerts?: boolean
+          theme?: "light" | "dark" | "system"
+          currency?: string
+          date_format?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }

@@ -125,6 +125,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.90.10
         version: 5.90.12(react@19.1.0)
+      '@tanstack/react-query-devtools':
+        specifier: 5.91.1
+        version: 5.91.1(@tanstack/react-query@5.90.12(react@19.1.0))(react@19.1.0)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -199,7 +202,7 @@ importers:
         version: 1.303.1
       posthog-react-native:
         specifier: 4.14.3
-        version: 4.14.3(caaff8bcbb88581a6f296d84dc61cdd0)
+        version: 4.14.3(b08ec53031e0401da060e9c6ba91bd9b)
       posthog-react-native-session-replay:
         specifier: latest
         version: 1.2.3(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
@@ -232,7 +235,7 @@ importers:
         version: 3.6.0(@expo/config-plugins@54.0.3)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
       react-native-navigation:
         specifier: latest
-        version: 8.6.0(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
+        version: 8.6.1(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
       react-native-reanimated:
         specifier: latest
         version: 4.2.0(react-native-worklets@0.6.1(@babel/core@7.28.5)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0))(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
@@ -2434,6 +2437,15 @@ packages:
 
   '@tanstack/query-core@5.90.12':
     resolution: {integrity: sha512-T1/8t5DhV/SisWjDnaiU2drl6ySvsHj1bHBCWNXd+/T+Hh1cf6JodyEYMd5sgwm+b/mETT4EV3H+zCVczCU5hg==}
+
+  '@tanstack/query-devtools@5.91.1':
+    resolution: {integrity: sha512-l8bxjk6BMsCaVQH6NzQEE/bEgFy1hAs5qbgXl0xhzezlaQbPk6Mgz9BqEg2vTLPOHD8N4k+w/gdgCbEzecGyNg==}
+
+  '@tanstack/react-query-devtools@5.91.1':
+    resolution: {integrity: sha512-tRnJYwEbH0kAOuToy8Ew7bJw1lX3AjkkgSlf/vzb+NpnqmHPdWM+lA2DSdGQSLi1SU0PDRrrCI1vnZnci96CsQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.90.10
+      react: ^18 || ^19
 
   '@tanstack/react-query@5.90.12':
     resolution: {integrity: sha512-graRZspg7EoEaw0a8faiUASCyJrqjKPdqJ9EwuDRUF9mEYJ1YPczI9H+/agJ0mOJkPCJDk0lsz5QTrLZ/jQ2rg==}
@@ -5578,8 +5590,8 @@ packages:
       react-native-macos:
         optional: true
 
-  react-native-navigation@8.6.0:
-    resolution: {integrity: sha512-Uno3plDKGyWvrrMKpId7XK0RSQBM1rp1PdpkzQFSBS2ijJco5F3MRmK5o3NLu4lU84VUVsA5oggEaWOu4S6fTw==}
+  react-native-navigation@8.6.1:
+    resolution: {integrity: sha512-lq14VKMfjH+Vmq9+NAYKbTQylXZGuUDhE+/vtkk9hn7ZjB6sihwzg+CdM+T0A7wyZwydPm7kJ2R+E+FpeEuphw==}
     hasBin: true
     peerDependencies:
       react: '*'
@@ -9265,6 +9277,14 @@ snapshots:
 
   '@tanstack/query-core@5.90.12': {}
 
+  '@tanstack/query-devtools@5.91.1': {}
+
+  '@tanstack/react-query-devtools@5.91.1(@tanstack/react-query@5.90.12(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@tanstack/query-devtools': 5.91.1
+      '@tanstack/react-query': 5.90.12(react@19.1.0)
+      react: 19.1.0
+
   '@tanstack/react-query@5.90.12(react@19.1.0)':
     dependencies:
       '@tanstack/query-core': 5.90.12
@@ -12715,7 +12735,7 @@ snapshots:
       react: 19.1.0
       react-native: 0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0)
 
-  posthog-react-native@4.14.3(caaff8bcbb88581a6f296d84dc61cdd0):
+  posthog-react-native@4.14.3(b08ec53031e0401da060e9c6ba91bd9b):
     dependencies:
       '@posthog/core': 1.7.1
       react-native-svg: 15.15.1(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
@@ -12729,7 +12749,7 @@ snapshots:
       posthog-react-native-session-replay: 1.2.3(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
       react-native-device-info: 15.0.1(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))
       react-native-localize: 3.6.0(@expo/config-plugins@54.0.3)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
-      react-native-navigation: 8.6.0(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
+      react-native-navigation: 8.6.1(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
       react-native-safe-area-context: 5.6.2(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0)
 
   preact@10.27.2: {}
@@ -12910,7 +12930,7 @@ snapshots:
     optionalDependencies:
       '@expo/config-plugins': 54.0.3
 
-  react-native-navigation@8.6.0(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0):
+  react-native-navigation@8.6.1(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.0.0)(react@19.1.0))(react@19.1.0):
     dependencies:
       hoist-non-react-statics: 3.3.2
       lodash: 4.17.21
