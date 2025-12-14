@@ -9,9 +9,12 @@ type Transaction = Database["public"]["Tables"]["transactions"]["Row"]
 
 interface RecentTransactionsProps {
   transactions: Transaction[]
+  showAll?: boolean // Added showAll prop to control whether to display all transactions or limit to 5
 }
 
-export function RecentTransactions({ transactions }: RecentTransactionsProps) {
+export function RecentTransactions({ transactions, showAll = false }: RecentTransactionsProps) {
+  const displayTransactions = showAll ? transactions : transactions.slice(0, 5)
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
@@ -19,20 +22,22 @@ export function RecentTransactions({ transactions }: RecentTransactionsProps) {
           <CardTitle>Recent Transactions</CardTitle>
           <CardDescription>Your latest financial activity</CardDescription>
         </div>
-        <Link href="/transactions">
-          <Button variant="ghost" size="sm">
-            View All
-          </Button>
-        </Link>
+        {!showAll && (
+          <Link href="/dashboard/accounts">
+            <Button variant="ghost" size="sm">
+              View All
+            </Button>
+          </Link>
+        )}
       </CardHeader>
       <CardContent>
-        {transactions.length === 0 ? (
+        {displayTransactions.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-sm text-gray-600">No transactions yet</p>
           </div>
         ) : (
           <div className="space-y-3">
-            {transactions.map((transaction) => {
+            {displayTransactions.map((transaction) => {
               const isIncome = transaction.type === "income"
               const Icon = isIncome ? ArrowUpRight : ArrowDownRight
 
