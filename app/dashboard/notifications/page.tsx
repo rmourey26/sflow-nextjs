@@ -1,6 +1,9 @@
 import { NotificationsList } from "@/components/dashboard/notifications-list"
+import { getNotifications } from "@/lib/actions/notifications"
 
 export default async function NotificationsPage() {
+  const notifications = await getNotifications()
+
   return (
     <main className="container mx-auto px-4 py-6 space-y-6 max-w-3xl">
       <div className="space-y-2">
@@ -8,7 +11,7 @@ export default async function NotificationsPage() {
         <p className="text-gray-600">Stay updated with your financial activity</p>
       </div>
 
-      <NotificationsList />
+      <NotificationsList initialNotifications={notifications} />
     </main>
   )
 }
