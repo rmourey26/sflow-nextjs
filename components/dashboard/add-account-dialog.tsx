@@ -38,6 +38,7 @@ export function AddAccountDialog({ onSuccess }: AddAccountDialogProps) {
     setLoading(true)
 
     try {
+      console.log("[v0] Creating account with data:", formData)
       await createAccount({
         name: formData.name,
         type: formData.type,
@@ -51,8 +52,8 @@ export function AddAccountDialog({ onSuccess }: AddAccountDialogProps) {
       setFormData({ name: "", type: "checking", balance: "" })
       onSuccess?.()
     } catch (error) {
-      toast.error("Failed to add account")
       console.error("[v0] Error adding account:", error)
+      toast.error(error instanceof Error ? error.message : "Failed to add account")
     } finally {
       setLoading(false)
     }

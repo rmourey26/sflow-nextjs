@@ -40,12 +40,18 @@ export function GoalsManagement({ initialGoals }: GoalsManagementProps) {
   })
 
   const handleCreateGoal = () => {
+    if (!newGoal.name || !newGoal.target_amount) {
+      toast({ title: "Please fill in all required fields", variant: "destructive" })
+      return
+    }
+
     startTransition(async () => {
       try {
+        console.log("[v0] Creating goal with data:", newGoal)
         const goal = await createGoal({
           name: newGoal.name,
           target_amount: newGoal.target_amount,
-          current_amount: newGoal.current_amount,
+          current_amount: newGoal.current_amount || "0",
           deadline: newGoal.deadline || null,
         })
         setGoals([goal, ...goals])
@@ -53,7 +59,12 @@ export function GoalsManagement({ initialGoals }: GoalsManagementProps) {
         setNewGoal({ name: "", target_amount: "", current_amount: "0", deadline: "" })
         toast({ title: "Goal created successfully" })
       } catch (error) {
-        toast({ title: "Failed to create goal", variant: "destructive" })
+        console.error("[v0] Error creating goal:", error)
+        toast({
+          title: "Failed to create goal",
+          description: error instanceof Error ? error.message : "An error occurred",
+          variant: "destructive",
+        })
       }
     })
   }
@@ -103,32 +114,36 @@ export function GoalsManagement({ initialGoals }: GoalsManagementProps) {
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="name">Goal Name</Label>
+                <Label htmlFor="name">Goal Name *</Label>
                 <Input
                   id="name"
                   value={newGoal.name}
                   onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
                   placeholder="Emergency Fund"
+                  required
                 />
               </div>
               <div>
-                <Label htmlFor="target">Target Amount</Label>
+                <Label htmlFor="target">Target Amount *</Label>
                 <Input
                   id="target"
                   type="number"
+                  step="0.01"
                   value={newGoal.target_amount}
                   onChange={(e) => setNewGoal({ ...newGoal, target_amount: e.target.value })}
-                  placeholder="5000"
+                  placeholder="5000.00"
+                  required
                 />
               </div>
               <div>
-                <Label htmlFor="current">Current Amount (Optional)</Label>
+                <Label htmlFor="current">Current Amount</Label>
                 <Input
                   id="current"
                   type="number"
+                  step="0.01"
                   value={newGoal.current_amount}
                   onChange={(e) => setNewGoal({ ...newGoal, current_amount: e.target.value })}
-                  placeholder="0"
+                  placeholder="0.00"
                 />
               </div>
               <div>
