@@ -11,7 +11,7 @@ export default async function GoalsPage() {
         <p className="text-gray-600">Track and manage your financial goals</p>
       </div>
 
-      <GoalsManagement goals={goals || []} />
+      <GoalsManagement initialGoals={goals || []} />
     </main>
   )
 }
