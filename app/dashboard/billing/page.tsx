@@ -78,7 +78,7 @@ export default async function BillingPage() {
                   </li>
                 ))}
               </ul>
-              {plan.tier !== user?.subscription_tier && <StripeCheckout tier={plan.tier} />}
+              <StripeCheckout tier={plan.tier} />
             </CardContent>
           </Card>
         ))}
