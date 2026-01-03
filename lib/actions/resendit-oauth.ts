@@ -14,15 +14,17 @@ export async function initiateResendItOAuth() {
   const codeChallenge = generateCodeChallenge(codeVerifier)
   const state = crypto.randomUUID()
 
+  const cookieStore = await cookies()
+
   // Store PKCE parameters in HTTP-only cookies
-  cookies().set("resendit_code_verifier", codeVerifier, {
+  cookieStore.set("resendit_code_verifier", codeVerifier, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     maxAge: 600, // 10 minutes
   })
 
-  cookies().set("resendit_oauth_state", state, {
+  cookieStore.set("resendit_oauth_state", state, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -42,7 +44,7 @@ export async function initiateResendItOAuth() {
 }
 
 export async function exchangeCodeForTokens(code: string, state: string) {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const storedState = cookieStore.get("resendit_oauth_state")?.value
   const codeVerifier = cookieStore.get("resendit_code_verifier")?.value
 
@@ -97,7 +99,7 @@ export async function exchangeCodeForTokens(code: string, state: string) {
 }
 
 export async function getResendItTokens() {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const accessToken = cookieStore.get("resendit_access_token")?.value
   const refreshToken = cookieStore.get("resendit_refresh_token")?.value
 
@@ -109,7 +111,7 @@ export async function getResendItTokens() {
 }
 
 export async function disconnectResendIt() {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   cookieStore.delete("resendit_access_token")
   cookieStore.delete("resendit_refresh_token")
 }
