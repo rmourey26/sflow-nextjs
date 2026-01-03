@@ -68,8 +68,7 @@ async function handleAgentCompleted(data: any) {
     result: data.result?.substring(0, 100),
   })
 
-  // Store result in database or trigger notifications
-  const supabase = createServerClient()
+  const supabase = await createServerClient()
   await supabase.from("notifications").insert({
     type: "resendit_agent_completed",
     title: "AI Agent Completed",
@@ -86,8 +85,7 @@ async function handleAgentFailed(data: any) {
     error: data.error,
   })
 
-  // Create error notification
-  const supabase = createServerClient()
+  const supabase = await createServerClient()
   await supabase.from("notifications").insert({
     type: "resendit_agent_failed",
     title: "AI Agent Failed",
@@ -103,7 +101,7 @@ async function handleWorkflowCompleted(data: any) {
     executionId: data.executionId || data.execution_id,
   })
 
-  const supabase = createServerClient()
+  const supabase = await createServerClient()
   await supabase.from("notifications").insert({
     type: "resendit_workflow_completed",
     title: "Workflow Completed",
@@ -120,7 +118,7 @@ async function handleWorkflowFailed(data: any) {
     error: data.error,
   })
 
-  const supabase = createServerClient()
+  const supabase = await createServerClient()
   await supabase.from("notifications").insert({
     type: "resendit_workflow_failed",
     title: "Workflow Failed",
