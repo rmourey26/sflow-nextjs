@@ -1,11 +1,12 @@
 {
   "buildCommand": "pnpm run build",
-  "installCommand": "pnpm install --no-frozen-lockfile",
+  "installCommand": "rm -rf node_modules .pnpm-store && pnpm install --no-frozen-lockfile",
   "framework": "nextjs",
   "build": {
     "env": {
       "VERCEL_FORCE_NO_BUILD_CACHE": "1",
-      "NEXT_TELEMETRY_DISABLED": "1"
+      "NEXT_TELEMETRY_DISABLED": "1",
+      "PNPM_CACHE_FOLDER": "/dev/null"
     }
   },
   "cleanUrls": true,
