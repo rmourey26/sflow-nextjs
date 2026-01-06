@@ -13,7 +13,7 @@ Instead of using a PostCSS plugin, TailwindCSS v4 is imported directly in the CS
 ```
 
 ### 2. Configuration via @theme
-All configuration is done using the `@theme` directive in CSS:
+All configuration is done via the `@theme` directive in CSS:
 
 ```css
 @theme {
