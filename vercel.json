@@ -1,6 +1,6 @@
 {
   "buildCommand": "pnpm run build",
-  "installCommand": "rm -rf node_modules .pnpm-store && pnpm install --no-frozen-lockfile",
+  "installCommand": "rm -rf node_modules .pnpm-store pnpm-lock.yaml && pnpm install --no-frozen-lockfile",
   "framework": "nextjs",
   "build": {
     "env": {
